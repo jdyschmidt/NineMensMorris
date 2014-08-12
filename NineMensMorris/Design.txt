@@ -1,6 +1,6 @@
 TODO:
--Implement buttons properly
--Create interface between game engine and UI
+-Implement game logic: taking turns, removing when necessary
+-Add indicator of turn, remaining pieces, pieces captured
 
 --------------------------------------------------------------------------------------------------
 
