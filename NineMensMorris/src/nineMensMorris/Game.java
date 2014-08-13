@@ -8,7 +8,9 @@ public abstract class Game {
 	protected enum Phase { PLACING, MOVING, REMOVING }
 	private Phase phase = Phase.PLACING; 
 	//Turn tracker
-	private int player = 1;
+	private Player player1;
+	private Player player2;
+	private Player activePlayer;
 	
 	protected GameDisplay getDisplay() {
 		return display;
@@ -27,17 +29,18 @@ public abstract class Game {
 		this.phase = phase;	
 	}
 	
-	protected int getPlayer() {
-		return player;
+	protected Player getActivePlayer() {
+		return activePlayer;
 	}
 	
 	protected void placePiece(Slot slot) {
-		slot.setVal(getPlayer());
-		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), getPlayer());
+		slot.setVal(getActivePlayer().getVal());
+		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), getActivePlayer().getVal());
 	}
 	
 	protected void endTurn() {
-		player = (player==1)?2:1;
+		activePlayer = (activePlayer==player1)?player2:player1;
+		setPhase(Phase.PLACING);
 	}
 	
 	protected void clickPosition(int square, int location) {
@@ -53,7 +56,6 @@ public abstract class Game {
 		}
 	}
 	
-	//Add exception
 	protected Slot getSlot(int square, int location) {
 		if (!(0<=square && square<=slots.length && 0<=location && location<=slots[square].length)) {
 			try {
@@ -63,5 +65,18 @@ public abstract class Game {
 			}
 		}
 		return slots[square][location];
+	}
+	
+	protected void initPlayers(int pieces) {
+		if (!(pieces>0)) {
+			try {
+				throw new Exception("Init player with negative pieces");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		player1 = new Player(1, pieces);
+		player2 = new Player(2, pieces);
+		activePlayer = player1;
 	}
 }

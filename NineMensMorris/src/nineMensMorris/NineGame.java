@@ -4,6 +4,7 @@ public class NineGame extends Game {
 	public NineGame() {
 		setDisplay(new NineGameDisplay(this));
 		setSlots(new Slot[3][8]);
+		initPlayers(9);
 	}
 	
 	public void clickPosition(int square, int location) {
