@@ -1,13 +1,14 @@
-package nineMensMorris;
+package ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.*;
 
+import engine.Game;
+import engine.NineGame;
+
 public class NineMensMorris {
 
-	private static final long serialVersionUID = 1L;
-	
 	protected static JFrame frame;
 	private static Game game;
 	private static JLabel bgLabel;

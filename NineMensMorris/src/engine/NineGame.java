@@ -1,4 +1,6 @@
-package nineMensMorris;
+package engine;
+
+import ui.NineGameDisplay;
 
 public class NineGame extends Game {	
 	public NineGame() {

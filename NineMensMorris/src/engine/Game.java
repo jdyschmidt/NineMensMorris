@@ -1,4 +1,6 @@
-package nineMensMorris;
+package engine;
+
+import ui.GameDisplay;
 
 public abstract class Game {
 	private GameDisplay display;
@@ -12,7 +14,7 @@ public abstract class Game {
 	private Player player2;
 	private Player activePlayer;
 	
-	protected GameDisplay getDisplay() {
+	public GameDisplay getDisplay() {
 		return display;
 	}
 	
@@ -43,7 +45,7 @@ public abstract class Game {
 		setPhase(Phase.PLACING);
 	}
 	
-	protected void clickPosition(int square, int location) {
+	public void clickPosition(int square, int location) {
 		System.out.println("Square "+square+", location "+location);
 	}
 

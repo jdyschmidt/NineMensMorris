@@ -1,4 +1,4 @@
-package nineMensMorris;
+package engine;
 
 public class Slot {
 	

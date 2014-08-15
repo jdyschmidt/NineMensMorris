@@ -1,4 +1,4 @@
-package nineMensMorris;
+package engine;
 
 public class Player {
 	private boolean flying = false;

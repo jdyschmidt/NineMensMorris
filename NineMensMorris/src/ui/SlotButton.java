@@ -1,4 +1,4 @@
-package nineMensMorris;
+package ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -52,11 +52,15 @@ public class SlotButton extends JButton {
 		return filled;
 	}
 
-	public boolean setFilled(int filled) {
-		if (!(0<=filled && filled<=2))
-			return false;
-		this.filled = filled;
-		return true;
+	public void setFilled(int val) {
+		if (!(0<=val && val<=2)) {
+			try {
+				throw new Exception("Fill value out of range");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		this.filled = val;
 	}
 
 }
