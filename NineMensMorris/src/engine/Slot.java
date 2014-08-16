@@ -4,25 +4,44 @@ public class Slot {
 	
 	//Value of contained piece: 0 for empty, 1 for player one, 2 for player two
 	private int val;
+	//Square where the slot is located
 	private int square;
+	//Location in square where the slot is located
 	private int location;
-	
-	public Slot(int square, int location, int val) {
-		setSquare(square);
-		setLocation(location);
-		setVal(val);
-	}
-	
+
+	/*
+	 * Create Slot with default filled value of 0
+	 * @param square Square where the slot is located
+	 * @param location Location in that square
+	 */
 	public Slot(int square, int location) {
 		setSquare(square);
 		setLocation(location);
 		val = 0;
 	}
 	
+	/*
+	 * Create Slot with starting filled value. Not sure why you'd want to do this.
+	 * @param square Square where the slot is located
+	 * @param location Location in that square
+	 * @param val Filled value: 0 for none, 1 for player one, 2 for player two
+	 */
+	public Slot(int square, int location, int val) {
+		setSquare(square);
+		setLocation(location);
+		setVal(val);
+	}
+	
+	/*
+	 * @return Filled value of the slot
+	 */
 	public int getVal() {
 		return val;
 	}
 	
+	/*
+	 * @param val Value to fill slot with, required that 0 <= val <= 2
+	 */
 	public void setVal(int val) {
 		if (!(0<=val && val<=2)) {
 			try {
@@ -34,20 +53,32 @@ public class Slot {
 		this.val = val;
 	}
 
+	/*
+	 * @return Square where the slot is located
+	 */
 	public int getSquare() {
 		return square;
 	}
 	
-	//maybe should add some exceptions
+	/*
+	 * Maybe should add some exceptions
+	 * @param square Square where the slot is located
+	 */
 	public void setSquare(int square) {
 		this.square = square;
 	}
 
+	/*
+	 * @return Location in square where the slot is located
+	 */
 	public int getLocation() {
 		return location;
 	}
 
-	//also might need exceptions
+	/*
+	 * Also might need exceptions
+	 * @param location Location in square where the slot is located
+	 */
 	public void setLocation(int location) {
 		this.location = location;
 	}

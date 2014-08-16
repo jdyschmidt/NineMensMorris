@@ -3,34 +3,17 @@ package engine;
 import ui.NineGameDisplay;
 
 public class NineGame extends Game {	
+	
+	/*
+	 * Call to start a new game
+	 */
 	public NineGame() {
 		setDisplay(new NineGameDisplay(this));
 		setSlots(new Slot[3][8]);
 		initPlayers(9);
 	}
 	
-	public void clickPosition(int square, int location) {
-		Slot slot = getSlot(square, location);
-		switch (getPhase()) {
-		case PLACING:
-			placePiece(slot);
-			if (checkMills(slot)) {
-				setPhase(Phase.REMOVING);
-				break;
-			}
-			endTurn();
-			break;
-		case MOVING:
-			break;
-		case REMOVING:
-			removePiece(slot);
-			endTurn();
-			break;
-		}
-	}
-
-	//Assumes a piece has just been placed in <slot>
-	private boolean checkMills(Slot slot) {
+	protected boolean checkMills(Slot slot) {
 		int val = slot.getVal();
 		int square = slot.getSquare();
 		int location = slot.getLocation();
@@ -54,10 +37,5 @@ public class NineGame extends Game {
 		default:
 			return false;
 		}
-	}
-	
-	private void removePiece(Slot slot) {
-		slot.setVal(0);
-		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), 0);
 	}
 }

@@ -9,10 +9,16 @@ import engine.NineGame;
 
 public class NineMensMorris {
 
+	//Frame used
 	protected static JFrame frame;
+	//Game engine
 	private static Game game;
+	//Background, to set size
 	private static JLabel bgLabel;
 	
+	/*
+	 * Start everything up
+	 */
 	private static void initGUI() {
         //Create and set up the window.
         frame = new JFrame("Nine Men's Morris");
@@ -41,6 +47,9 @@ public class NineMensMorris {
         frame.setVisible(true);
     }
 	
+	/*
+	 * I'm not sure If I'll ever need to add anything else to this
+	 */
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {

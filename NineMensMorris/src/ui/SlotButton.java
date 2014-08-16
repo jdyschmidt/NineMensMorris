@@ -8,13 +8,20 @@ import javax.swing.JButton;
 
 public class SlotButton extends JButton {
 
+	//Apparently I needed to add this for some reason
 	private static final long serialVersionUID = 1L;
 	//0 for none, 1 for player 1, 2 for player 2
 	private int filled = 0;
+	//Has a different icon when selected. Will be fully implemented later
 	private boolean selected = false;
 	
-	public SlotButton(ImageIcon normal, ImageIcon focused, ImageIcon pressed) {
-		super(normal);
+	/*
+	 * @param unfocused Normal icon displayed by the button
+	 * @param focused Icon displayed when button is hovered over
+	 * @param pressed Icon displayed when mouse is depressed over button 
+	 */
+	public SlotButton(ImageIcon unfocused, ImageIcon focused, ImageIcon pressed) {
+		super(unfocused);
 		setRolloverIcon(focused);
 		setPressedIcon(pressed);
 		setBorderPainted(false);
@@ -24,10 +31,22 @@ public class SlotButton extends JButton {
 		setOpaque(true);
 	}
 
+	/*
+	 * Rewrite of super method for convenience
+	 * @param d Left x value
+	 * @param e Top y value
+	 * @param i x size
+	 * @param j y size
+	 */
 	public void setBounds(double d, double e, int i, int j) {
 		super.setBounds((int)d, (int)e, i, j);
 	}
 	
+	/*
+	 * Overwrite of super method to be able to fill with pieces. May completely replace eventually
+	 * No need to call manually
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (selected) {
@@ -48,10 +67,16 @@ public class SlotButton extends JButton {
 		}
 	}
 
+	/*
+	 * @return Value slot is filled by
+	 */
 	public int getFilled() {
 		return filled;
 	}
 
+	/*
+	 * @param val Value slot should be filled by. Required: 0 <= val <= 2
+	 */
 	public void setFilled(int val) {
 		if (!(0<=val && val<=2)) {
 			try {

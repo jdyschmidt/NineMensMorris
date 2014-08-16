@@ -1,5 +1,4 @@
 TODO:
--Add javadoc + normal comments
 -Restrict clicking to appropriate slots (disable buttons) FUNCTION IMPLEMENTED. NEED ENGINE CALLING IT
 -Restrict removal to those not in mills
 -Add indicator of turn, remaining pieces, pieces captured
