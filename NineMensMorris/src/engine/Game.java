@@ -90,8 +90,8 @@ public abstract class Game {
 		case MOVING:
 			break;
 		case REMOVING:
-			removePiece(slot);
-			endTurn();
+			if (removePiece(slot))
+				endTurn();
 			break;
 		}
 	}
@@ -135,9 +135,18 @@ public abstract class Game {
 	 * Remove a player's piece from the board
 	 * @param slot Slot from which to remove
 	 */
-	private void removePiece(Slot slot) {
+	private boolean removePiece(Slot slot) {
+		if (checkMills(slot)) {
+			for (int i = 0; i != slots.length; i++) {
+				for (int j = 0; j != slots[i].length; j++) {
+					if (!checkMills(slots[i][j]) && slots[i][j]!=slot)
+						return false;
+				}
+			}
+		}
 		slot.setVal(0);
 		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), 0);
+		return true;
 	}
 	
 	/*
