@@ -1,5 +1,5 @@
 TODO:
--Add indicator of turn, remaining pieces, pieces captured
+-Update display on click
 -Add slot selection: moving
 -Restrict clicking to appropriate slots (disable buttons) FUNCTION IMPLEMENTED. NEED ENGINE CALLING IT
 

@@ -72,8 +72,6 @@ public class NineGameDisplay extends GameDisplay {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.WHITE);
-		g2.fillRect(0, 0, 610, 610);
 		g2.setColor(Color.BLUE);
 		g2.draw(bigSquare);
 		g2.draw(medSquare);

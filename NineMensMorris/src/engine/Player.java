@@ -8,7 +8,7 @@ public class Player {
 	//Amount of current pieces left to place
 	private int pieces;
 	//Amount of pieces captured from opponent
-	private int capturedPieces = 0;
+	private int captured = 0;
 	
 	/*
 	 * @param val Which player this is (1 or 2)
@@ -50,21 +50,21 @@ public class Player {
 	/*
 	 * Remove one piece from player's stash
 	 */
-	public void decPieces() {
+	public void removePiece() {
 		this.pieces--;
 	}
 
 	/*
 	 * @return Amount of pieces player has captured from opponent
 	 */
-	public int getCapturedPieces() {
-		return capturedPieces;
+	public int getCaptured() {
+		return captured;
 	}
 
 	/*
 	 * Add one to captured amount
 	 */
-	public void incCapturedPieces() {
-		capturedPieces++;
+	public void addCaptured() {
+		captured++;
 	}
 }

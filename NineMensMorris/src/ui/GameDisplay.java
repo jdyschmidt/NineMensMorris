@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -69,6 +71,25 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 	 */
 	protected void setGame(Game game) {
 		this.game = game;
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 610, 610);
+		g.setColor(Color.BLUE);
+		g.drawString("Captured:", 400, 25);
+		g.drawString("Captured:", 400, 595);
+		g.setColor(Color.BLACK);
+		g.drawString(String.valueOf(game.getCaptured(1)), 470, 25);
+		for (int i=0; i!=game.getPieces(1); i++)
+			g.fillOval(10 + i*30, 10, 20, 20);
+		g.setColor(Color.RED);
+		g.drawString(String.valueOf(game.getCaptured(2)), 470, 595);
+		for (int i=0; i!=game.getPieces(2); i++)
+			g.fillOval(10 + i*30, 580, 20, 20);
+		g.setColor(Color.YELLOW);
+		g.fillOval(570, (game.getActivePlayerVal()==1?5:580), 30, 30);
 	}
 	
 	/*

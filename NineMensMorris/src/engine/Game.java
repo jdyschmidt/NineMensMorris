@@ -13,11 +13,8 @@ public abstract class Game {
 	protected enum Phase { PLACING, MOVING, REMOVING }
 	//Current phase
 	private Phase phase = Phase.PLACING; 
-	//Players
-	private Player player1;
-	private Player player2;
-	//Current player (turn tracker)
-	private Player activePlayer;
+	//Players. 1 is player one, 2 is player two, 0 points to active player
+	private Player[] players;
 	
 	/*
 	 * @return Display interacted with by the engine
@@ -51,7 +48,11 @@ public abstract class Game {
 	 * @return Current player taking turn
 	 */
 	protected Player getActivePlayer() {
-		return activePlayer;
+		return players[0];
+	}
+	
+	public int getActivePlayerVal() {
+		return getActivePlayer().getVal();
 	}
 	
 	/*
@@ -60,13 +61,14 @@ public abstract class Game {
 	protected void placePiece(Slot slot) {
 		slot.setVal(getActivePlayer().getVal());
 		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), getActivePlayer().getVal());
+		getActivePlayer().removePiece();
 	}
 	
 	/*
 	 * Ends current turn, alternates {@link activePlayer}
 	 */
 	protected void endTurn() {
-		activePlayer = (activePlayer==player1)?player2:player1;
+		players[0] = (players[0]==players[1])?players[2]:players[1];
 		setPhase(Phase.PLACING);
 	}
 	
@@ -94,6 +96,7 @@ public abstract class Game {
 				endTurn();
 			break;
 		}
+		
 	}
 
 	/*
@@ -146,7 +149,23 @@ public abstract class Game {
 		}
 		slot.setVal(0);
 		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), 0);
+		getActivePlayer().addCaptured();
 		return true;
+	}
+	/*
+	 * @param player 1 for player one, 2 for player two, 0 for current player
+	 * @return Amount of pieces remaining for player to place
+	 */
+	public int getPieces(int player) {
+		return players[player].getPieces();
+	}
+	
+	/*
+	 * @param player 1 for player one, 2 for player two, 0 for current player
+	 * @return Amount of pieces captured by player
+	 */
+	public int getCaptured(int player) {
+		return players[player].getCaptured();
 	}
 	
 	/*
@@ -156,13 +175,14 @@ public abstract class Game {
 	protected void initPlayers(int pieces) {
 		if (!(pieces>0)) {
 			try {
-				throw new Exception("Init player with negative pieces");
+				throw new Exception("Tried to init players with negative pieces");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		player1 = new Player(1, pieces);
-		player2 = new Player(2, pieces);
-		activePlayer = player1;
+		players = new Player[3];
+		players[1] = new Player(1, pieces);
+		players[2] = new Player(2, pieces);
+		players[0] = players[1];
 	}
 }
