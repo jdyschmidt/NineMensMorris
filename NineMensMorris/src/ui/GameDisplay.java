@@ -95,28 +95,38 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 	/*
 	 * Disable all buttons of a certain player (or both)
 	 * Should implement binary logic sometime.
-	 * @param players 1 for player one, 2 for player two, 4 for both.
+	 * @param players 1 for player one, 2 for player two, 4 for empty slots. Add them for combinations
 	 */
 	public void setDisabled(int players) {
-		if (!(1==players || players==2 || players==4)) {
+		if (!(players>0 && players<8)) {
 			try {
 				throw new Exception("Player value out of range");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		if (players==4) {
+		if (players>=4) {
 			for (int i = 0; i != slotButtons.length; i++) {
 				for (int j = 0; j != slotButtons[i].length; j++) {
 					if (slotButtons[i][j].getFilled()!=0)
 						slotButtons[i][j].setEnabled(false);
 				}
 			}
+			players -= 4;
 		}
-		else {
+		if (players>=2) {
 			for (int i = 0; i != slotButtons.length; i++) {
 				for (int j = 0; j != slotButtons[i].length; j++) {
-					if (slotButtons[i][j].getFilled()==players)
+					if (slotButtons[i][j].getFilled()==2)
+						slotButtons[i][j].setEnabled(false);
+				}
+			}
+			players -= 2;
+		}
+		if (players>=1) {
+			for (int i = 0; i != slotButtons.length; i++) {
+				for (int j = 0; j != slotButtons[i].length; j++) {
+					if (slotButtons[i][j].getFilled()==1)
 						slotButtons[i][j].setEnabled(false);
 				}
 			}

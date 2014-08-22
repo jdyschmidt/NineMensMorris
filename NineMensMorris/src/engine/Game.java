@@ -90,6 +90,7 @@ public abstract class Game {
 			endTurn();
 			break;
 		case MOVING:
+			
 			break;
 		case REMOVING:
 			if (removePiece(slot))
@@ -152,6 +153,7 @@ public abstract class Game {
 		getActivePlayer().addCaptured();
 		return true;
 	}
+	
 	/*
 	 * @param player 1 for player one, 2 for player two, 0 for current player
 	 * @return Amount of pieces remaining for player to place
