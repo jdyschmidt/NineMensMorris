@@ -78,8 +78,10 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 610, 610);
 		g.setColor(Color.BLUE);
-		g.drawString("Captured:", 400, 25);
-		g.drawString("Captured:", 400, 595);
+		g.drawString("Captured:", 410, 25);
+		g.drawString("Captured:", 410, 595);
+		g.drawString("Turn:", 532, 27);
+		g.drawString("Turn:", 532, 593);
 		g.setColor(Color.BLACK);
 		g.drawString(String.valueOf(game.getCaptured(1)), 470, 25);
 		for (int i=0; i!=game.getPieces(1); i++)
@@ -89,7 +91,7 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 		for (int i=0; i!=game.getPieces(2); i++)
 			g.fillOval(10 + i*30, 580, 20, 20);
 		g.setColor(Color.YELLOW);
-		g.fillOval(570, (game.getActivePlayerVal()==1?5:580), 30, 30);
+		g.fillOval(570, (game.getActivePlayerVal()==1?8:573), 30, 30);
 	}
 	
 	/*

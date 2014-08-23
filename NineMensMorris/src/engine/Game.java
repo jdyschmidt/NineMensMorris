@@ -97,7 +97,7 @@ public abstract class Game {
 				endTurn();
 			break;
 		}
-		
+		getDisplay().repaint();
 	}
 
 	/*

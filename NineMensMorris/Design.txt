@@ -1,5 +1,4 @@
 TODO:
--Update display on click
 -Add slot selection: moving
 -Restrict clicking to appropriate slots (disable buttons) FUNCTION IMPLEMENTED. NEED ENGINE CALLING IT
 
