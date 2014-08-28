@@ -7,7 +7,7 @@ public abstract class Game {
 	private GameDisplay display;
 	//Set of slots
 	private Slot[][] slots;
-	//Slot currently selected (unused so far)
+	//Slot currently selected
 	private Slot selectedSlot;
 	//Game phases definition
 	protected enum Phase { PLACING, MOVING, REMOVING }
@@ -47,12 +47,29 @@ public abstract class Game {
 	/*
 	 * @return Current player taking turn
 	 */
-	protected Player getActivePlayer() {
+	public Player getActivePlayer() {
 		return players[0];
 	}
 	
-	public int getActivePlayerVal() {
-		return getActivePlayer().getVal();
+	/*
+	 * @param player Player whose turn it is to be
+	 */
+	private void setActivePlayer(Player player) {
+		players[0] = player;
+	}
+	
+	/*
+	 * @return Player with given index (1 or 2)
+	 */
+	protected Player getPlayer(int val) {
+		if (val!=1||val!=2) {
+			try {
+				throw new Exception("Player value out of range");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return players[val];
 	}
 	
 	/*
@@ -61,15 +78,18 @@ public abstract class Game {
 	protected void placePiece(Slot slot) {
 		slot.setVal(getActivePlayer().getVal());
 		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), getActivePlayer().getVal());
-		getActivePlayer().removePiece();
+		getActivePlayer().placePiece();
 	}
 	
 	/*
-	 * Ends current turn, alternates {@link activePlayer}
+	 * Ends current turn, alternates active player
 	 */
 	protected void endTurn() {
-		players[0] = (players[0]==players[1])?players[2]:players[1];
-		setPhase(Phase.PLACING);
+		setActivePlayer(getPlayer(getActivePlayer().otherVal()));
+		if (getActivePlayer().getUnplaced()>0)
+			setPhase(Phase.PLACING);
+		else
+			setPhase(Phase.MOVING);
 	}
 	
 	/*
@@ -83,6 +103,7 @@ public abstract class Game {
 		switch (getPhase()) {
 		case PLACING:
 			placePiece(slot);
+			getDisplay().setDisabled(getActivePlayer().getVal()+4);
 			if (checkMills(slot)) {
 				setPhase(Phase.REMOVING);
 				break;
@@ -90,7 +111,11 @@ public abstract class Game {
 			endTurn();
 			break;
 		case MOVING:
-			
+			if (selectedSlot==null) {
+				setSelectedSlot(slot);
+				break;
+			}
+			//Continue here
 			break;
 		case REMOVING:
 			if (removePiece(slot))
@@ -98,6 +123,10 @@ public abstract class Game {
 			break;
 		}
 		getDisplay().repaint();
+	}
+
+	private void setSelectedSlot(Slot slot) {
+		selectedSlot = slot;
 	}
 
 	/*
@@ -136,6 +165,19 @@ public abstract class Game {
 	protected abstract boolean checkMills(Slot slot);
 	
 	/*
+	 * Check if two slots are adjacent
+	 */
+	protected abstract boolean checkAdjacent(Slot primary, Slot secondary);
+	
+	/*
+	 * Updates whether player is flying (when they have 3 pieces left on the board)
+	 */
+	protected void updateFlying(Player player) {
+		if (player.getPiecesOut()<=3 && player.getUnplaced()==0)
+			player.setFlying();
+	}
+	
+	/*
 	 * Remove a player's piece from the board
 	 * @param slot Slot from which to remove
 	 */
@@ -151,6 +193,8 @@ public abstract class Game {
 		slot.setVal(0);
 		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), 0);
 		getActivePlayer().addCaptured();
+		getPlayer(getActivePlayer().otherVal()).removePiece();
+		updateFlying(getActivePlayer());
 		return true;
 	}
 	
@@ -159,7 +203,7 @@ public abstract class Game {
 	 * @return Amount of pieces remaining for player to place
 	 */
 	public int getPieces(int player) {
-		return players[player].getPieces();
+		return players[player].getUnplaced();
 	}
 	
 	/*
@@ -185,6 +229,6 @@ public abstract class Game {
 		players = new Player[3];
 		players[1] = new Player(1, pieces);
 		players[2] = new Player(2, pieces);
-		players[0] = players[1];
+		setActivePlayer(getPlayer(1));
 	}
 }

@@ -6,7 +6,9 @@ public class Player {
 	//Only two options: player one or two
 	private final int val;
 	//Amount of current pieces left to place
-	private int pieces;
+	private int unplaced;
+	//Amount of pieces on the board
+	private int piecesOut;
 	//Amount of pieces captured from opponent
 	private int captured = 0;
 	
@@ -16,7 +18,7 @@ public class Player {
 	 */
 	public Player(int val, int pieces) {
 		this.val = val;
-		this.pieces = pieces;
+		this.unplaced = pieces;
 	}
 
 	/*
@@ -29,7 +31,7 @@ public class Player {
 	/*
 	 * Allow player to move pieces anywhere. Can't switch back
 	 */
-	public void setFlying() {
+	protected void setFlying() {
 		this.flying = true;
 	}
 
@@ -41,17 +43,25 @@ public class Player {
 	}
 
 	/*
+	 * @return Value of the other player
+	 */
+	public int otherVal() {
+		return (val==1?2:1);
+	}
+	
+	/*
 	 * @return Amount of pieces player has left to place
 	 */
-	public int getPieces() {
-		return pieces;
+	public int getUnplaced() {
+		return unplaced;
 	}
 
 	/*
 	 * Remove one piece from player's stash
 	 */
-	public void removePiece() {
-		this.pieces--;
+	protected void placePiece() {
+		this.unplaced--;
+		this.piecesOut++;
 	}
 
 	/*
@@ -64,7 +74,15 @@ public class Player {
 	/*
 	 * Add one to captured amount
 	 */
-	public void addCaptured() {
+	protected void addCaptured() {
 		captured++;
+	}
+
+	public int getPiecesOut() {
+		return piecesOut;
+	}
+	
+	protected void removePiece() {
+		this.piecesOut--;
 	}
 }

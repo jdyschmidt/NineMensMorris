@@ -38,7 +38,7 @@ public class NineMensMorris {
 		bgLabel.setBackground(new Color(0, 0, 0));
 		bgLabel.setPreferredSize(new Dimension(600, 600));
 		frame.add(bgLabel);
-		frame.setPreferredSize(new Dimension(630, 670));
+		frame.setPreferredSize(new Dimension(620, 660));
 		
         //Add components
         frame.setJMenuBar(menuBar);

@@ -91,7 +91,7 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 		for (int i=0; i!=game.getPieces(2); i++)
 			g.fillOval(10 + i*30, 580, 20, 20);
 		g.setColor(Color.YELLOW);
-		g.fillOval(570, (game.getActivePlayerVal()==1?8:573), 30, 30);
+		g.fillOval(570, (game.getActivePlayer().getVal()==1?8:573), 30, 30);
 	}
 	
 	/*

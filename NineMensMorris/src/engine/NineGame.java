@@ -38,4 +38,8 @@ public class NineGame extends Game {
 			return false;
 		}
 	}
+	
+	protected boolean checkAdjacent(Slot primary, Slot secondary) {
+		return ((primary.getSquare()==secondary.getSquare() && primary.isNextInSquare(secondary)) || (primary.getLocation()==secondary.getLocation() && primary.getSquare() +- 1 == secondary.getSquare()));
+	}
 }
