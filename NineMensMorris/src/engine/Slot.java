@@ -87,6 +87,6 @@ public class Slot {
 	 * Check if this is beside in the same square
 	 */
 	public boolean isNextInSquare(Slot slot) {
-		return ((this.getLocation() +- 1 == slot.getLocation()) || ((this.getLocation()==7 && slot.getLocation()==0) || (this.getLocation()==0 && slot.getLocation()==7)));
+		return (((this.getLocation() + 1 == slot.getLocation()) || (this.getLocation() - 1 == slot.getLocation())) || ((this.getLocation()==7 && slot.getLocation()==0) || (this.getLocation()==0 && slot.getLocation()==7)));
 	}
 }

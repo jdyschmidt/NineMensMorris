@@ -45,7 +45,7 @@ public class Player {
 	/*
 	 * @return Value of the other player
 	 */
-	public int otherVal() {
+	public int getOtherVal() {
 		return (val==1?2:1);
 	}
 	

@@ -62,7 +62,7 @@ public abstract class Game {
 	 * @return Player with given index (1 or 2)
 	 */
 	protected Player getPlayer(int val) {
-		if (val!=1||val!=2) {
+		if (!(val==1||val==2)) {
 			try {
 				throw new Exception("Player value out of range");
 			} catch (Exception e) {
@@ -85,11 +85,16 @@ public abstract class Game {
 	 * Ends current turn, alternates active player
 	 */
 	protected void endTurn() {
-		setActivePlayer(getPlayer(getActivePlayer().otherVal()));
-		if (getActivePlayer().getUnplaced()>0)
+		setActivePlayer(getPlayer(getActivePlayer().getOtherVal()));
+		clearSelectedSlot();
+		if (getActivePlayer().getUnplaced()>0) {
 			setPhase(Phase.PLACING);
-		else
+			getDisplay().setDisabled(getActivePlayer().getVal()+getActivePlayer().getOtherVal());
+		}
+		else {
 			setPhase(Phase.MOVING);
+			getDisplay().setDisabled(getActivePlayer().getOtherVal()+4);
+		}
 	}
 	
 	/*
@@ -103,9 +108,9 @@ public abstract class Game {
 		switch (getPhase()) {
 		case PLACING:
 			placePiece(slot);
-			getDisplay().setDisabled(getActivePlayer().getVal()+4);
 			if (checkMills(slot)) {
 				setPhase(Phase.REMOVING);
+				getDisplay().setDisabled(getActivePlayer().getVal()+4);
 				break;
 			}
 			endTurn();
@@ -113,9 +118,23 @@ public abstract class Game {
 		case MOVING:
 			if (selectedSlot==null) {
 				setSelectedSlot(slot);
+				getDisplay().setDisabled(getActivePlayer().getOtherVal());
 				break;
 			}
-			//Continue here
+			if (slot.getVal()==getActivePlayer().getVal()) {
+				getDisplay().setSelectedSlot(slot.getSquare(), slot.getLocation());
+				break;
+			}
+			if (attemptMove(getSelectedSlot(),slot)) {
+				if (checkMills(slot)) {
+					setPhase(Phase.REMOVING);
+					getDisplay().setDisabled(getActivePlayer().getVal()+4);
+				}
+				else
+					endTurn();
+			}
+			else
+				System.out.println("Failed moving");
 			break;
 		case REMOVING:
 			if (removePiece(slot))
@@ -125,13 +144,25 @@ public abstract class Game {
 		getDisplay().repaint();
 	}
 
+	private Slot getSelectedSlot() {
+		return selectedSlot;
+	}
+
 	private void setSelectedSlot(Slot slot) {
+		getDisplay().setSelectedSlot(slot.getSquare(), slot.getLocation());
 		selectedSlot = slot;
+	}
+	
+	private void clearSelectedSlot() {
+		if (getSelectedSlot()!=null) {
+			getDisplay().setSelectedSlot(getSelectedSlot().getSquare(), getSelectedSlot().getLocation());
+			selectedSlot = null;
+		}
 	}
 
 	/*
 	 * Create new set of slots
-	 * @param slots Empty matrix of given dimensions
+	 * @param slots Empty matrix of given dimensions (squares, locations)
 	 */
 	protected void setSlots(Slot[][] slots) {
 		this.slots = slots;
@@ -165,9 +196,12 @@ public abstract class Game {
 	protected abstract boolean checkMills(Slot slot);
 	
 	/*
-	 * Check if two slots are adjacent
+	 * Attempt to move a piece to an empty adjacent slot
+	 * @param primary Slot with player's piece
+	 * @param secondary Empty slot to move to
+	 * @return Success. Fails on move to non-adjacent slot
 	 */
-	protected abstract boolean checkAdjacent(Slot primary, Slot secondary);
+	protected abstract boolean attemptMove(Slot primary, Slot secondary);
 	
 	/*
 	 * Updates whether player is flying (when they have 3 pieces left on the board)
@@ -193,7 +227,7 @@ public abstract class Game {
 		slot.setVal(0);
 		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), 0);
 		getActivePlayer().addCaptured();
-		getPlayer(getActivePlayer().otherVal()).removePiece();
+		getPlayer(getActivePlayer().getOtherVal()).removePiece();
 		updateFlying(getActivePlayer());
 		return true;
 	}

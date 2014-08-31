@@ -10,7 +10,7 @@ public class NineGame extends Game {
 	public NineGame() {
 		setDisplay(new NineGameDisplay(this));
 		setSlots(new Slot[3][8]);
-		initPlayers(9);
+		initPlayers(4);
 	}
 	
 	protected boolean checkMills(Slot slot) {
@@ -39,7 +39,21 @@ public class NineGame extends Game {
 		}
 	}
 	
-	protected boolean checkAdjacent(Slot primary, Slot secondary) {
-		return ((primary.getSquare()==secondary.getSquare() && primary.isNextInSquare(secondary)) || (primary.getLocation()==secondary.getLocation() && primary.getSquare() +- 1 == secondary.getSquare()));
+	protected boolean attemptMove(Slot primary, Slot secondary) {
+		if (primary.getVal()==0 || secondary.getVal()!=0) {
+			try {
+				throw new Exception("Illegal slot movement");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if ((primary.getSquare()==secondary.getSquare() && primary.isNextInSquare(secondary)) || (primary.getLocation()==secondary.getLocation() && (primary.getSquare() + 1 == secondary.getSquare()) || (primary.getSquare() - 1 == secondary.getSquare()))) {
+			secondary.setVal(primary.getVal());
+			getDisplay().fillSlot(secondary.getSquare(), secondary.getLocation(), primary.getVal());
+			primary.setVal(0);
+			getDisplay().fillSlot(primary.getSquare(), primary.getLocation(), 0);
+			return true;
+		}
+		return false;
 	}
 }

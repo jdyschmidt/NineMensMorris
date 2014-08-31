@@ -34,8 +34,9 @@ public class NineGameDisplay extends GameDisplay {
 		ImageIcon buttonUnfocused = new ImageIcon("images/ButtonUnfocused.png");
 		ImageIcon buttonFocused = new ImageIcon("images/ButtonFocused.png");
 		ImageIcon buttonPressed = new ImageIcon("images/ButtonPressed.png");
+		ImageIcon buttonSelected = new ImageIcon("images/ButtonSelected.png");
 		
-		setSlotButtons(new SlotButton[3][8], buttonUnfocused, buttonFocused, buttonPressed);
+		setSlotButtons(new SlotButton[3][8], buttonUnfocused, buttonFocused, buttonPressed, buttonSelected);
 		setGame(this.game);
 		
 		//Set all buttons manually aaah

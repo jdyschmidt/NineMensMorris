@@ -15,6 +15,7 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private SlotButton[][] slotButtons;
+	private SlotButton selectedSlot;
 	private Game game;
 	
 	/*
@@ -44,11 +45,11 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 	 * @param buttonFocused Icon to be used for button when hovered over
 	 * @param buttonPressed Icon to be used for button when mouse is depressed over
 	 */
-	protected void setSlotButtons(SlotButton[][] slotButtons, ImageIcon buttonUnfocused, ImageIcon buttonFocused, ImageIcon buttonPressed) {
+	protected void setSlotButtons(SlotButton[][] slotButtons, ImageIcon buttonUnfocused, ImageIcon buttonFocused, ImageIcon buttonPressed, ImageIcon buttonSelected) {
 		this.slotButtons = slotButtons;
 		for (int i = 0; i != slotButtons.length; i++) {
 			for (int j = 0; j != slotButtons[i].length; j++) {
-				this.slotButtons[i][j] = new SlotButton(buttonUnfocused, buttonFocused, buttonPressed);
+				this.slotButtons[i][j] = new SlotButton(buttonUnfocused, buttonFocused, buttonPressed, buttonSelected);
 				add(this.slotButtons[i][j]);
 				this.slotButtons[i][j].setActionCommand(i+";"+j);
 				this.slotButtons[i][j].addActionListener(this);
@@ -96,7 +97,6 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 	
 	/*
 	 * Disable all buttons of a certain player (or both)
-	 * Should implement binary logic sometime.
 	 * @param players 1 for player one, 2 for player two, 4 for empty slots. Add them for combinations
 	 */
 	public void setDisabled(int players) {
@@ -107,10 +107,16 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 				e.printStackTrace();
 			}
 		}
+		
+		for (int i = 0; i != slotButtons.length; i++) {
+			for (int j = 0; j != slotButtons[i].length; j++)
+				slotButtons[i][j].setEnabled(true);
+		}
+		
 		if (players>=4) {
 			for (int i = 0; i != slotButtons.length; i++) {
 				for (int j = 0; j != slotButtons[i].length; j++) {
-					if (slotButtons[i][j].getFilled()!=0)
+					if (slotButtons[i][j].getFilled()==0)
 						slotButtons[i][j].setEnabled(false);
 				}
 			}
@@ -133,5 +139,28 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 				}
 			}
 		}
+	}
+
+	/*
+	 * Highlights a particular slot (and piece) as selected to be moved
+	 * @param square Square in which the slot is located
+	 * @param location Location in that square where the slot is located
+	 */
+	public void setSelectedSlot(int square, int location) {
+		if (!(square>=0 && square<=slotButtons.length && location>=0 && location<=slotButtons[0].length)) {
+			try {
+				throw new Exception("Slot value out of range");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if (selectedSlot==null) {
+			selectedSlot = slotButtons[square][location];
+		}
+		else if (slotButtons[square][location]!=selectedSlot) {
+			selectedSlot.setSelected();
+			selectedSlot = slotButtons[square][location];
+		}
+		slotButtons[square][location].setSelected();
 	}
 }

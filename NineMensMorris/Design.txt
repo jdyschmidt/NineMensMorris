@@ -1,6 +1,5 @@
 TODO:
--Add slot selection: moving HALF IMPLEMENTED
--Restrict clicking to appropriate slots (disable buttons) FUNCTION IMPLEMENTED. NEED ENGINE CALLING IT
+-Add UI information & alerts
 
 --------------------------------------------------------------------------------------------------
 
