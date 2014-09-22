@@ -86,7 +86,6 @@ public abstract class Game {
 	 */
 	protected void endTurn() {
 		setActivePlayer(getPlayer(getActivePlayer().getOtherVal()));
-		clearSelectedSlot();
 		if (getActivePlayer().getUnplaced()>0) {
 			setPhase(Phase.PLACING);
 			getDisplay().setDisabled(getActivePlayer().getVal()+getActivePlayer().getOtherVal());
@@ -149,14 +148,15 @@ public abstract class Game {
 	}
 
 	private void setSelectedSlot(Slot slot) {
-		getDisplay().setSelectedSlot(slot.getSquare(), slot.getLocation());
+		if (slot!=null)
+			getDisplay().setSelectedSlot(slot.getSquare(), slot.getLocation());
 		selectedSlot = slot;
 	}
 	
-	private void clearSelectedSlot() {
+	protected void clearSelectedSlot() {
 		if (getSelectedSlot()!=null) {
 			getDisplay().setSelectedSlot(getSelectedSlot().getSquare(), getSelectedSlot().getLocation());
-			selectedSlot = null;
+			setSelectedSlot(null);
 		}
 	}
 

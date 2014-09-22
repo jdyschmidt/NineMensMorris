@@ -14,10 +14,6 @@ public class SlotButton extends JButton {
 	private int filled = 0;
 	//Has a different icon when selected. Will be fully implemented later
 	private boolean selected = false;
-	//Normal icon
-	private ImageIcon unfocusedIcon;
-	//Icon when selected
-	private ImageIcon selectedIcon;
 	
 	/*
 	 * @param unfocused Normal icon displayed by the button
@@ -26,10 +22,8 @@ public class SlotButton extends JButton {
 	 */
 	public SlotButton(ImageIcon unfocusedIcon, ImageIcon focusedIcon, ImageIcon pressedIcon, ImageIcon selectedIcon) {
 		super(unfocusedIcon);
-		this.unfocusedIcon = unfocusedIcon;
 		setRolloverIcon(focusedIcon);
 		setPressedIcon(pressedIcon);
-		this.selectedIcon = selectedIcon;
 		setBorderPainted(false);
 		setContentAreaFilled(false);
 		setFocusPainted(false);
@@ -57,7 +51,7 @@ public class SlotButton extends JButton {
 		super.paintComponent(g);
 		if (selected) {
 			g.setColor(new Color(0, 255, 0));
-			g.fillOval(0,0,45,45);
+			g.fillOval(2, 2, 36, 36);
 		}
 		switch (filled) {
 		case 0:
@@ -100,11 +94,10 @@ public class SlotButton extends JButton {
 	public void setSelected() {
 		if (selected) {
 			selected = false;
-			setIcon(unfocusedIcon);
+			System.out.println("Deselected");
 		}
 		else {
 			selected = true;
-			setIcon(selectedIcon);
 		}
 	}
 }

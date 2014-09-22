@@ -1,4 +1,6 @@
 TODO:
+-Fix weird flying (& possibly moving) bugs
+-Fix selected ghost afterimage, with possible movement bug
 -Add UI information & alerts
 
 --------------------------------------------------------------------------------------------------

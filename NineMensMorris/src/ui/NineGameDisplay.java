@@ -31,10 +31,10 @@ public class NineGameDisplay extends GameDisplay {
 		lilSquare = new Rectangle(medSquare);
 		lilSquare.grow(-80, -80);
 		
-		ImageIcon buttonUnfocused = new ImageIcon("images/ButtonUnfocused.png");
-		ImageIcon buttonFocused = new ImageIcon("images/ButtonFocused.png");
-		ImageIcon buttonPressed = new ImageIcon("images/ButtonPressed.png");
-		ImageIcon buttonSelected = new ImageIcon("images/ButtonSelected.png");
+		ImageIcon buttonUnfocused = new ImageIcon(getClass().getResource("images/ButtonUnfocused.png"));
+		ImageIcon buttonFocused = new ImageIcon(getClass().getResource("images/ButtonFocused.png"));
+		ImageIcon buttonPressed = new ImageIcon(getClass().getResource("images/ButtonPressed.png"));
+		ImageIcon buttonSelected = new ImageIcon(getClass().getResource("images/ButtonSelected.png"));
 		
 		setSlotButtons(new SlotButton[3][8], buttonUnfocused, buttonFocused, buttonPressed, buttonSelected);
 		setGame(this.game);
