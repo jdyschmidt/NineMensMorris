@@ -4,16 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 
-public class SlotButton extends JButton {
+public class SlotButton extends JToggleButton {
 
 	//Apparently I needed to add this for some reason
 	private static final long serialVersionUID = 1L;
 	//0 for none, 1 for player 1, 2 for player 2
 	private int filled = 0;
-	//Has a different icon when selected. Will be fully implemented later
-	private boolean selected = false;
 	
 	/*
 	 * @param unfocused Normal icon displayed by the button
@@ -24,6 +22,7 @@ public class SlotButton extends JButton {
 		super(unfocusedIcon);
 		setRolloverIcon(focusedIcon);
 		setPressedIcon(pressedIcon);
+		setSelectedIcon(selectedIcon);
 		setBorderPainted(false);
 		setContentAreaFilled(false);
 		setFocusPainted(false);
@@ -49,10 +48,6 @@ public class SlotButton extends JButton {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (selected) {
-			g.setColor(new Color(0, 255, 0));
-			g.fillOval(2, 2, 36, 36);
-		}
 		switch (filled) {
 		case 0:
 			break;
@@ -86,18 +81,5 @@ public class SlotButton extends JButton {
 			}
 		}
 		this.filled = val;
-	}
-
-	/*
-	 * Alternates whether the slot is displayed as selected
-	 */
-	public void setSelected() {
-		if (selected) {
-			selected = false;
-			System.out.println("Deselected");
-		}
-		else {
-			selected = true;
-		}
 	}
 }
