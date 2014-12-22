@@ -121,7 +121,7 @@ public abstract class Game {
 				break;
 			}
 			if (slot.getVal()==getActivePlayer().getVal()) {
-				getDisplay().setSelectedSlot(slot.getSquare(), slot.getLocation());
+				getDisplay().clearSelectedSlot(square, location);
 				break;
 			}
 			if (attemptMove(getSelectedSlot(),slot)) {
@@ -148,16 +148,12 @@ public abstract class Game {
 	}
 
 	private void setSelectedSlot(Slot slot) {
-		if (slot!=null)
-			getDisplay().setSelectedSlot(slot.getSquare(), slot.getLocation());
 		selectedSlot = slot;
 	}
 	
 	protected void clearSelectedSlot() {
-		if (getSelectedSlot()!=null) {
-			getDisplay().setSelectedSlot(getSelectedSlot().getSquare(), getSelectedSlot().getLocation());
-			setSelectedSlot(null);
-		}
+		getDisplay().clearSelectedSlot();
+		setSelectedSlot(null);
 	}
 
 	/*

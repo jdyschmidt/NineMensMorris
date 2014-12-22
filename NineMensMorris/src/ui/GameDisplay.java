@@ -9,13 +9,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import engine.Game;
+import engine.Slot;
 
 
 public abstract class GameDisplay extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private SlotButton[][] slotButtons;
-	private SlotButton selectedSlot;
 	private Game game;
 	
 	/*
@@ -141,26 +141,21 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 		}
 	}
 
-	/*
-	 * Highlights a particular slot (and piece) as selected to be moved
-	 * @param square Square in which the slot is located
-	 * @param location Location in that square where the slot is located
-	 */
-	public void setSelectedSlot(int square, int location) {
-		if (!(square>=0 && square<=slotButtons.length && location>=0 && location<=slotButtons[0].length)) {
-			try {
-				throw new Exception("Slot value out of range");
-			} catch (Exception e) {
-				e.printStackTrace();
+	public void clearSelectedSlot() {
+		for (int i = 0; i != slotButtons.length; i++) {
+			for (int j = 0; j != slotButtons[i].length; j++) {
+				if (slotButtons[i][j].isSelected())
+					slotButtons[i][j].setSelected(false);
 			}
 		}
-		if (selectedSlot==null) {
-			selectedSlot = slotButtons[square][location];
+	}
+	
+	public void clearSelectedSlot(int square, int location) {
+		for (int i = 0; i != slotButtons.length; i++) {
+			for (int j = 0; j != slotButtons[i].length; j++) {
+				if (slotButtons[i][j].isSelected() && j == location && i == square)
+					slotButtons[i][j].setSelected(false);
+			}
 		}
-		else if (slotButtons[square][location]!=selectedSlot) {
-			selectedSlot.setSelected();
-			selectedSlot = slotButtons[square][location];
-		}
-		slotButtons[square][location].setSelected();
 	}
 }
