@@ -48,11 +48,12 @@ public class SlotButton extends JButton {
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		
 		if (selected) {
 			g.setColor(new Color(0, 255, 0));
 			g.fillOval(2, 2, 36, 36);
 		}
+		super.paintComponent(g);
 		switch (filled) {
 		case 0:
 			break;
@@ -65,6 +66,7 @@ public class SlotButton extends JButton {
 			g.fillOval(10, 10, 20, 20);
 			break;
 		}
+		
 	}
 
 	/*
