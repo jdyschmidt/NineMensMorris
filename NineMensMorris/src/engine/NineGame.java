@@ -10,7 +10,7 @@ public class NineGame extends Game {
 	public NineGame() {
 		setDisplay(new NineGameDisplay(this));
 		setSlots(new Slot[3][8]);
-		initPlayers(5);
+		initPlayers(9);
 	}
 	
 	protected boolean checkMills(Slot slot) {
@@ -56,7 +56,6 @@ public class NineGame extends Game {
 			primary.setVal(0);
 			getDisplay().fillSlot(primary.getSquare(), primary.getLocation(), 0);
 			clearSelectedSlot();
-			System.out.println("Moved");
 			return true;
 		}
 		return false;

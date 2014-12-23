@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +18,7 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private SlotButton[][] slotButtons;
 	private Game game;
+	private Point selectedSlot;
 	
 	/*
 	 * Called by engine to update slot in display when appropriate.
@@ -97,6 +99,7 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 	
 	/*
 	 * Disable all buttons of a certain player (or both)
+	 * Hardcoded to never disable selected slot
 	 * @param players 1 for player one, 2 for player two, 4 for empty slots. Add them for combinations
 	 */
 	public void setDisabled(int players) {
@@ -139,23 +142,26 @@ public abstract class GameDisplay extends JPanel implements ActionListener {
 				}
 			}
 		}
+		enableSelectedSlot();
 	}
-
-	public void clearSelectedSlot() {
+	
+	public void clearSelectedSlots() {
 		for (int i = 0; i != slotButtons.length; i++) {
 			for (int j = 0; j != slotButtons[i].length; j++) {
 				if (slotButtons[i][j].isSelected())
 					slotButtons[i][j].setSelected(false);
 			}
 		}
+		selectedSlot = null;
 	}
 	
-	public void clearSelectedSlot(int square, int location) {
-		for (int i = 0; i != slotButtons.length; i++) {
-			for (int j = 0; j != slotButtons[i].length; j++) {
-				if (slotButtons[i][j].isSelected() && j == location && i == square)
-					slotButtons[i][j].setSelected(false);
-			}
-		}
+	public void enableSelectedSlot() {
+		if (selectedSlot != null)
+			slotButtons[selectedSlot.x][selectedSlot.y].setEnabled(true);
+	}
+	
+	public void selectSlot(int square, int location) {
+		slotButtons[square][location].setSelected(true);
+		selectedSlot = new Point(square, location);
 	}
 }

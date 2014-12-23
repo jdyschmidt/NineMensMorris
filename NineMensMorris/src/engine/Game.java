@@ -94,6 +94,7 @@ public abstract class Game {
 			setPhase(Phase.MOVING);
 			getDisplay().setDisabled(getActivePlayer().getOtherVal()+4);
 		}
+		clearSelectedSlot();
 	}
 	
 	/*
@@ -117,11 +118,12 @@ public abstract class Game {
 		case MOVING:
 			if (selectedSlot==null) {
 				setSelectedSlot(slot);
-				getDisplay().setDisabled(getActivePlayer().getOtherVal());
+				getDisplay().setDisabled(getActivePlayer().getOtherVal()+getActivePlayer().getVal());
 				break;
 			}
 			if (slot.getVal()==getActivePlayer().getVal()) {
-				getDisplay().clearSelectedSlot(square, location);
+				clearSelectedSlot();
+				getDisplay().setDisabled(getActivePlayer().getOtherVal()+4);
 				break;
 			}
 			if (attemptMove(getSelectedSlot(),slot)) {
@@ -132,12 +134,17 @@ public abstract class Game {
 				else
 					endTurn();
 			}
-			else
-				System.out.println("Failed moving");
+			else {
+				getDisplay().clearSelectedSlots();
+				getDisplay().selectSlot(selectedSlot.getSquare(), selectedSlot.getLocation());
+				getDisplay().enableSelectedSlot();
+			}
 			break;
 		case REMOVING:
 			if (removePiece(slot))
 				endTurn();
+			else
+				clearSelectedSlot();
 			break;
 		}
 		getDisplay().repaint();
@@ -149,10 +156,13 @@ public abstract class Game {
 
 	private void setSelectedSlot(Slot slot) {
 		selectedSlot = slot;
+		if (slot == null)
+			getDisplay().clearSelectedSlots();
+		else
+			getDisplay().selectSlot(slot.getSquare(), slot.getLocation());
 	}
 	
 	protected void clearSelectedSlot() {
-		getDisplay().clearSelectedSlot();
 		setSelectedSlot(null);
 	}
 
@@ -203,6 +213,7 @@ public abstract class Game {
 	 * Updates whether player is flying (when they have 3 pieces left on the board)
 	 */
 	protected void updateFlying(Player player) {
+		System.out.println(player.getPiecesOut());
 		if (player.getPiecesOut()<=3 && player.getUnplaced()==0)
 			player.setFlying();
 	}
@@ -215,7 +226,7 @@ public abstract class Game {
 		if (checkMills(slot)) {
 			for (int i = 0; i != slots.length; i++) {
 				for (int j = 0; j != slots[i].length; j++) {
-					if (!checkMills(slots[i][j]) && slots[i][j]!=slot)
+					if (slots[i][j].getVal() == getActivePlayer().getOtherVal() && !checkMills(slots[i][j]))
 						return false;
 				}
 			}
@@ -224,7 +235,7 @@ public abstract class Game {
 		getDisplay().fillSlot(slot.getSquare(), slot.getLocation(), 0);
 		getActivePlayer().addCaptured();
 		getPlayer(getActivePlayer().getOtherVal()).removePiece();
-		updateFlying(getActivePlayer());
+		updateFlying(players[getActivePlayer().getOtherVal()]);
 		return true;
 	}
 	
